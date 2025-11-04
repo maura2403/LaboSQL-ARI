@@ -4,6 +4,7 @@ Laboratorio de SQL y Optimizacion de ARI
 # Table of Contents
 - [Utiles para recordar](#utiles-para-recordar)
 - [Obtener las playlists que tienen el mayor numero de tracks de Rock - Tabla TEMP](#playlists-que-tienen-el-mayor-número-de-tracks-de-rock)
+  - [Alternativa con Having](#playlists-que-tienen-el-mayor-número-de-tracks-de-rock-alternativa-having)
 - [Clientes que han gastado más que el promedio de todos los clientes en sus compras - con TOP 7 porque si](#clientes-que-han-gastado-más-que-el-promedio-de-todos-los-clientes-en-sus-compras-con-top-7-porque-si)
 - [Clientes que hayan comprado canciones de más de un género musical distinto - Count(distinct)](#clientes-que-hayan-comprado-canciones-de-más-de-un-género-musical-distinto)
 - [Títulos de los álbumes donde todas las canciones tienen una duración mayor al promedio de duración de todas las canciones de la base - NOT IN](#títulos-de-los-álbumes-donde-todas-las-canciones-tienen-una-duración-mayor-al-promedio-de-duración-de-todas-las-canciones-de-la-base)
@@ -37,6 +38,25 @@ WHERE r.CantidadTracks >= (SELECT MAX(r.CantidadTracks) FROM
 PlaylistRock r);
 ```
 
+## Playlists que tienen el mayor número de tracks de Rock (Alternativa Having)
+[**⬆️**](#table-of-contents)
+```SQL
+SELECT p.PlaylistId, p.Name, COUNT(t.TrackId) as RockCount FROM Playlist as p
+INNER JOIN PlaylistTrack as pt ON p.PlaylistId = pt.PlaylistId
+INNER JOIN Track as t ON pt.TrackId = t.TrackId
+INNER JOIN Genre as g ON t.GenreId = g.GenreId
+WHERE g.Name = 'ROCK'
+GROUP BY p.PlaylistId, p.Name
+HAVING COUNT(t.TrackId) >= (
+    SELECT TOP 1 COUNT(t.TrackId) as RockMax FROM Playlist as p
+    INNER JOIN PlaylistTrack as pt ON p.PlaylistId = pt.PlaylistId
+    INNER JOIN Track as t ON pt.TrackId = t.TrackId
+    INNER JOIN Genre as g ON t.GenreId = g.GenreId
+    WHERE g.Name = 'ROCK'
+    GROUP BY p.PlaylistId
+);
+```
+
 ## Clientes que han gastado más que el promedio de todos los clientes en sus compras con TOP 7 porque si
 [**⬆️**](#table-of-contents)
 ```SQL
@@ -61,7 +81,7 @@ Existen varias formas de anidar una consulta en el WHERE:
 - **WHERE valor = (SELECT…)** → solo funciona si la subconsulta devuelve una columna con un valor
 - WHERE valor **IN | NOT IN** (SELECT…) → funciona si la subconsulta devuelve sólo 1 columna o si “valor” es una tupla y la consulta devuelve un tupla similar.
 - WHERE valor >= **ALL | SOME** (SELECT…) → funciona si la subconsulta devuelve sólo 1 columna
-- WHERE **EXISTS | NOT EXISTS** (SELECT…) → funciona siempre
+- WHERE valor **EXISTS | NOT EXISTS** (SELECT…) → funciona siempre
 
 ▨ Cuando la consulta anidada utiliza columnas de una fila de alguna tabla de la consulta principal, se dice que las consultas de adentro y la de afuera están **correlacionadas**.
 - Esto implica que la consulta de adentro deberá ejecutarse una vez por cada fila de la consulta de afuera.
