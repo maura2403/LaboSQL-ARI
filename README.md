@@ -9,15 +9,8 @@ Laboratorio de SQL y Optimizacion de ARI
 - [Títulos de los álbumes donde todas las canciones tienen una duración mayor al promedio de duración de todas las canciones de la base - NOT IN](#títulos-de-los-álbumes-donde-todas-las-canciones-tienen-una-duración-mayor-al-promedio-de-duración-de-todas-las-canciones-de-la-base)
 - [Ejemplo Datepart](#ejemplo-datepart)
 - [Datos de género incluyendo la cantidad de álbumes de cada uno (cantidad de álbumes donde hay canciones de ese género)](#datos-de-género-incluyendo-la-cantidad-de-álbumes-de-cada-uno-cantidad-de-álbumes-donde-hay-canciones-de-ese-género)
-- [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-- [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-- [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-- [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-- [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-- [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-- [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-- [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-- [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
+- [Example](#fourth-example)
+
 
 # Utiles para recordar
 Ver info de campos de una tabla facilmente
@@ -26,6 +19,7 @@ EXEC dbo.sp_help 'dbo.Playlist'
 ```
 
 ## Playlists que tienen el mayor número de tracks de Rock
+[**⬆️**](#table-of-contents)
 ```SQL
 -- uso de tabla temporal puede servir
 WITH PlaylistRock AS (
@@ -44,6 +38,7 @@ PlaylistRock r);
 ```
 
 ## Clientes que han gastado más que el promedio de todos los clientes en sus compras con TOP 7 porque si
+[**⬆️**](#table-of-contents)
 ```SQL
 SELECT [TOP 7]
 c.FirstName,
@@ -86,6 +81,7 @@ WHERE (SELECT COUNT(*) FROM Track t WHERE t.AlbumId = a.AlbumId) > 10;
 ```
 
 ## Clientes que hayan comprado canciones de más de un género musical distinto
+[**⬆️**](#table-of-contents)
 ```SQL
 SELECT
 c.FirstName,
@@ -102,6 +98,7 @@ ORDER BY CantidadGeneros DESC
 ```
 
 ## Títulos de los álbumes donde todas las canciones tienen una duración mayor al promedio de duración de todas las canciones de la base
+[**⬆️**](#table-of-contents)
 ```SQL
 SELECT
 a.Title
@@ -128,12 +125,13 @@ ORDER BY a.Title
 ```
 
 ## Ejemplo Datepart
+[**⬆️**](#table-of-contents)
 ```SQL
 WHERE DATEPART(year,i.InvoiceDate) > 2010
 ```
 
 ## Datos de género incluyendo la cantidad de álbumes de cada uno (cantidad de álbumes donde hay canciones de ese género)
-
+[**⬆️**](#table-of-contents)
 ```SQL
 SELECT
 g.GenreId,
